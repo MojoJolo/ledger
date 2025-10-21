@@ -1,7 +1,7 @@
 import uuid
 from fastapi import FastAPI, Request
 
-from .models import EntryRequest
+from models import EntryRequest
 
 
 app = FastAPI()
@@ -24,10 +24,4 @@ def read_root():
 
 @app.post("/entry/insert")
 def insert_entry(request: EntryRequest):
-    return {
-        "request_id": request.request_id,
-        "amount": request.amount,
-        "currency": request.currency,
-        "metadata": request.metadata,
-        "effective_at": request.effective_at,
-    }
+    return request
