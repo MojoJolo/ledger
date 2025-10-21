@@ -1,16 +1,7 @@
 import uuid
-from datetime import datetime, timezone
-from decimal import Decimal
 from fastapi import FastAPI, Request
-from pydantic import BaseModel, Field
 
-
-class EntryRequest(BaseModel):
-    request_id: str
-    amount: Decimal
-    currency: str
-    metadata: str | None = None
-    effective_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+from models import EntryRequest
 
 
 app = FastAPI()
@@ -33,10 +24,4 @@ def read_root():
 
 @app.post("/entry/insert")
 def insert_entry(request: EntryRequest):
-    return {
-        "request_id": request.request_id,
-        "amount": request.amount,
-        "currency": request.currency,
-        "metadata": request.metadata,
-        "effective_at": request.effective_at,
-    }
+    return request
