@@ -1,7 +1,7 @@
 import uuid
 from fastapi import FastAPI, Request
 
-from models import EntryRequest
+from api.models import EntryRequest
 
 
 app = FastAPI()
