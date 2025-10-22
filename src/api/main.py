@@ -2,9 +2,13 @@ import uuid
 from fastapi import FastAPI, Request
 
 from api.models import TransactionRequest, Transaction, Entry
+from api.database import get_database_repository
 
 
 app = FastAPI()
+
+# Initialize the database repository using the configuration
+db_repository = get_database_repository()
 
 
 @app.middleware("http")
@@ -49,4 +53,7 @@ def insert_entry(transactionRequest: TransactionRequest):
         entries=entries,
     )
 
-    return transaction
+    # Save transaction using the DB-agnostic layer
+    saved_transaction = db_repository.save_transaction(transaction)
+
+    return saved_transaction
