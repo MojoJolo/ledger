@@ -2,13 +2,13 @@ import uuid
 from fastapi import FastAPI, Request, HTTPException
 
 from api.models import TransactionRequest, Transaction, Entry
-from api.database import InMemoryRepository
+from api.database import get_database_repository
 
 
 app = FastAPI()
 
-# Initialize the database repository (in-memory for now)
-db_repository = InMemoryRepository()
+# Initialize the database repository using the configuration
+db_repository = get_database_repository()
 
 
 @app.middleware("http")
