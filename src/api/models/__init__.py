@@ -1,5 +1,5 @@
 from .account import Account
-from .entry import EntryRequest
+from .request_models import EntryRequest, TransactionRequest
 from .ledger import Ledger
 from .transaction import Entry, Transaction
 

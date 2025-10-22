@@ -7,3 +7,5 @@ class Account(BaseModel):
     name: str
     currency: str
     description: str | None = None
+
+# needs review
