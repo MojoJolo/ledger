@@ -10,7 +10,7 @@ class Transaction(BaseModel):
     effective_at: datetime | None = None
     entries: list[Entry] = Field(min_length=2)
 
-    @field_validator('entries')
+    @field_validator("entries")
     @classmethod
     def validate_entries_balance(cls, entries: list[Entry]) -> list[Entry]:
         """Validate that entries balance per currency"""
