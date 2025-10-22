@@ -26,6 +26,7 @@ def read_root():
 # def insert_entry(request: EntryRequest):
 #     return request
 
+
 @app.post("/ledger/transaction/create")
 def insert_entry(transactionRequest: TransactionRequest):
     return transactionRequest

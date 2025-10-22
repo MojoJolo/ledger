@@ -10,6 +10,7 @@ class EntryRequest(BaseModel):
     currency: str
     metadata: str | None = None
 
+
 class TransactionRequest(BaseModel):
     txn_id: str
     ledger_id: str

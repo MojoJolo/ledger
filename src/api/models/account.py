@@ -8,4 +8,5 @@ class Account(BaseModel):
     currency: str
     description: str | None = None
 
+
 # needs review
