@@ -1,4 +1,4 @@
-"""Database initializer module for dependency injection."""
+"""Database connection module for dependency injection."""
 
 
 class DatabaseConnection:
@@ -23,9 +23,9 @@ _db_instance = None
 
 def get_database():
     """Get or create database connection instance.
-    
+
     This function provides dependency injection for FastAPI endpoints.
-    
+
     Returns:
         DatabaseConnection: Active database connection instance
     """

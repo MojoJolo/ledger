@@ -2,7 +2,7 @@ import uuid
 from fastapi import FastAPI, Request, Depends
 
 from api.models import TransactionRequest, Transaction, Entry
-from api.database.initializer import get_database
+from api.database.get_db import get_database
 
 
 app = FastAPI()
