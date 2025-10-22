@@ -1,7 +1,8 @@
 import uuid
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 
 from api.models import TransactionRequest, Transaction, Entry
+from api.database.initializer import get_database
 
 
 app = FastAPI()
@@ -28,7 +29,7 @@ def read_root():
 
 
 @app.post("/ledger/transaction/create")
-def insert_entry(transactionRequest: TransactionRequest):
+def insert_entry(transactionRequest: TransactionRequest, db=Depends(get_database)):
     # Map EntryRequest list to Entry list
     entries = [
         Entry(
@@ -48,5 +49,10 @@ def insert_entry(transactionRequest: TransactionRequest):
         effective_at=transactionRequest.effective_at,
         entries=entries,
     )
+
+    # Use database connection (demonstration)
+    if db.connected:
+        # Database operations would go here
+        pass
 
     return transaction
