@@ -1,10 +1,14 @@
 import uuid
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 
 from api.models import TransactionRequest, Transaction, Entry
+from api.database import InMemoryRepository
 
 
 app = FastAPI()
+
+# Initialize the database repository (in-memory for now)
+db_repository = InMemoryRepository()
 
 
 @app.middleware("http")
@@ -49,4 +53,16 @@ def insert_entry(transactionRequest: TransactionRequest):
         entries=entries,
     )
 
+    # Save transaction using the DB-agnostic layer
+    saved_transaction = db_repository.save_transaction(transaction)
+
+    return saved_transaction
+
+
+@app.get("/ledger/transaction/{txn_id}")
+def get_transaction(txn_id: str):
+    """Retrieve a transaction by ID"""
+    transaction = db_repository.get_transaction(txn_id)
+    if transaction is None:
+        raise HTTPException(status_code=404, detail="Transaction not found")
     return transaction
