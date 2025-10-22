@@ -1,5 +1,5 @@
 import uuid
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request
 
 from api.models import TransactionRequest, Transaction, Entry
 from api.database import get_database_repository
@@ -57,12 +57,3 @@ def insert_entry(transactionRequest: TransactionRequest):
     saved_transaction = db_repository.save_transaction(transaction)
 
     return saved_transaction
-
-
-@app.get("/ledger/transaction/{txn_id}")
-def get_transaction(txn_id: str):
-    """Retrieve a transaction by ID"""
-    transaction = db_repository.get_transaction(txn_id)
-    if transaction is None:
-        raise HTTPException(status_code=404, detail="Transaction not found")
-    return transaction
