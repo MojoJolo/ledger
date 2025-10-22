@@ -2,6 +2,9 @@ from datetime import datetime
 from pydantic import BaseModel, Field, field_validator
 
 from .entry import Entry
+from api.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class Transaction(BaseModel):
@@ -14,6 +17,8 @@ class Transaction(BaseModel):
     @classmethod
     def validate_entries_balance(cls, entries: list[Entry]) -> list[Entry]:
         """Validate that entries balance per currency"""
+        logger.debug(f"Validating entries balance for {len(entries)} entries")
+        
         # Group entries by currency
         balances: dict[str, int] = {}
 
@@ -25,9 +30,15 @@ class Transaction(BaseModel):
         # Check that all currencies balance to zero
         for currency, balance in balances.items():
             if balance != 0:
+                logger.error(
+                    f"Entry validation failed: currency {currency} does not balance. "
+                    f"Sum is {balance}, expected 0"
+                )
                 raise ValueError(
                     f"Entries for currency {currency} do not balance. "
                     f"Sum is {balance}, expected 0"
                 )
+            logger.debug(f"Currency {currency} balances correctly (sum=0)")
 
+        logger.debug("All entries validated successfully")
         return entries
