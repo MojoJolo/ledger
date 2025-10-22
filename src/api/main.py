@@ -1,7 +1,7 @@
 import uuid
 from fastapi import FastAPI, Request
 
-from api.models import TransactionRequest
+from api.models import TransactionRequest, Transaction, Entry
 
 
 app = FastAPI()
@@ -29,4 +29,24 @@ def read_root():
 
 @app.post("/ledger/transaction/create")
 def insert_entry(transactionRequest: TransactionRequest):
-    return transactionRequest
+    # Map EntryRequest list to Entry list
+    entries = [
+        Entry(
+            account_id=entry_req.account_id,
+            amount=entry_req.amount,
+            decimal_places=entry_req.decimal_places,
+            currency=entry_req.currency,
+            metadata=entry_req.metadata,
+        )
+        for entry_req in transactionRequest.entries
+    ]
+
+    # Map TransactionRequest to Transaction
+    transaction = Transaction(
+        txn_id=transactionRequest.txn_id,
+        ledger_id=transactionRequest.ledger_id,
+        effective_at=transactionRequest.effective_at,
+        entries=entries,
+    )
+
+    return transaction
