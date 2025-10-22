@@ -1,7 +1,7 @@
 import uuid
 from fastapi import FastAPI, Request
 
-from models import EntryRequest
+from api.models import TransactionRequest
 
 
 app = FastAPI()
@@ -22,6 +22,10 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/entry/insert")
-def insert_entry(request: EntryRequest):
-    return request
+# @app.post("/entry/insert")
+# def insert_entry(request: EntryRequest):
+#     return request
+
+@app.post("/ledger/transaction/create")
+def insert_entry(transactionRequest: TransactionRequest):
+    return transactionRequest
